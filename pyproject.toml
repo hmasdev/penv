@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["penv"]
+
+[project]
+name = "penv"
+dynamic = ["version"]
+license = { file = "LICENSE" }
+authors = [{ name = "hmasdev", email = "hmasuidev1com@gmail.com" }]
+description = "penv: venv-based python portable environment"
+readme = "README.md"
+keywords = ["venv", "virtual environment", "portable"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+requires-python = ">=3.9"
+
+dependencies = []
+
+[project.urls]
+Repository = "http://github.com/hmasdev/penv"
+
+[project.optional-dependencies]
+dev = [
+    "autopep8",
+    "flake8>=3.8.4",
+    "mypy>=0.812",
+    "pytest>=6.1.2",
+    "pytest-cov>=2.10.1",
+    "pytest-mock>=3.3.1",
+    "twine",
+    "wheel",
+]
+
+[tool.setuptools.dynamic]
+version = { attr = "penv.__version__" }
+
+[tool.pytest.ini_options]
+minversion = 6.0
+addopts = "--cov=penv --cov-branch --cov-report=term-missing"
+testpaths = ["tests"]
+markers = ["integrate: integration test"]
