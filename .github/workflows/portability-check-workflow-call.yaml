@@ -28,8 +28,8 @@ jobs:
           python -m pip install -e .
       - name: Execute
         run: |
-          python -m penv my_penv
-          my_penv\Activate.ps1
+          python -m penv my_penv_${{ matrix.python-version }}
+          my_penv_${{ matrix.python-version }}\Activate.ps1
           python -m pip install --upgrade pip
           python -m pip install numpy
           Compress-Archive -Path my_penv_${{ matrix.python-version }} -DestinationPath my_penv_${{ matrix.python-version }}.zip
@@ -52,7 +52,7 @@ jobs:
           path: .
       - name: Extract Artifact
         run: |
-          Expand-Archive -Path my_penv_${{ matrix.python-version }}.zip -DestinationPath my_penv_${{ matrix.python-version }}
+          Expand-Archive -Path  my_penv_${{ matrix.python-version }}.zip -DestinationPath  my_penv_${{ matrix.python-version }}
       - name: Check
         run: |
           my_penv_${{ matrix.python-version }}\my_penv_${{ matrix.python-version }}\Activate.ps1
