@@ -1,7 +1,14 @@
 # `penv`: `venv`-based Python Portable Environment
 
+![GitHub top language](https://img.shields.io/github/languages/top/hmasdev/penv)
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/hmasdev/penv?sort=semver)
+![GitHub](https://img.shields.io/github/license/hmasdev/penv)
+![GitHub last commit](https://img.shields.io/github/last-commit/hmasdev/penv)
+
+![Scheduled Test](https://github.com/hmasdev/penv/actions/workflows/tests-on-schedule.yaml/badge.svg)
+
 `penv` is a Python package that provides a portable environment for Python projects.
-It is based on the built-in `venv` module, which is available in Python 3.8 and later.
+It is based on the built-in `venv` module, which is available in Python 3.9 and later.
 `penv` is designed to be a lightweight alternative to more complex tools like `virtualenv` and `conda`.
 
 ## Requirements
@@ -68,7 +75,7 @@ Once an environment has been created, you may wish to activate it, e.g. by sourc
 
    ```bash
    python -m venv .venv
-   source .venv/bin/activate  # .venv\Scripts\activate.bat on Windows
+   .venv\\Scripts\\activate.bat
    pip install -e .[dev]
    ```
 
