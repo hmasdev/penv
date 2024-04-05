@@ -1,12 +1,12 @@
-name: Pytest
+name: Static Type Check
 
 on:
   workflow_call:
-  push:
-  pull_request:
-    types: [opened, synchronize]
-  schedule:
-    - cron: "0 17 * * 6"
+    inputs:
+      git-ref:
+        required: false
+        default: "main"
+        type: string
 
 jobs:
   test:
@@ -15,15 +15,18 @@ jobs:
       matrix:
         python-version: [3.9, "3.10", "3.11", "3.12"]
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.git-ref }}
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install requirements
         run: |
           python -m pip install --upgrade pip
           python -m pip install -e .[dev]
-      - name: Pytest
+      - name: Static Type Check
         run: |
-          pytest -m 'not integrate'
+          mypy penv
+          mypy tests
