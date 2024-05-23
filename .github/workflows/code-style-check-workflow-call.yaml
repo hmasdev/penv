@@ -1,6 +1,12 @@
 name: Code Style Check
 
 on:
+  workflow_dispatch:
+    inputs:
+      git-ref:
+        required: false
+        default: "main"
+        type: string
   workflow_call:
     inputs:
       git-ref:

@@ -1,25 +1,27 @@
-name: Static Type Check
+name: Validate Version
 
 on:
   workflow_dispatch:
     inputs:
       git-ref:
         required: false
-        default: "main"
         type: string
+        default: "main"
   workflow_call:
     inputs:
       git-ref:
         required: false
-        default: "main"
         type: string
+        default: "main"
 
 jobs:
-  test:
-    runs-on: windows-latest
+  validate_version:
+    runs-on: ubuntu-latest
+    env:
+      PRIVATE_REPO_USER: "hmasdev"
     strategy:
       matrix:
-        python-version: [3.9, "3.10", "3.11", "3.12"]
+        python-version: ["3.11"]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -31,8 +33,10 @@ jobs:
       - name: Install requirements
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -e .[dev]
-      - name: Static Type Check
+          python -m pip install -e .
+      - name: Check Version
         run: |
-          mypy penv
-          mypy tests
+          # Check if the tag is the same as runnable_family.__version__
+          export tag=$(echo "${{ inputs.git-ref }}" | cut -d / -f 3)
+          echo "extracted tag from git-ref: $tag"
+          python -c "import os; import runnable_family; assert runnable_family.__version__ == '$tag', (runnable_family.__version__, '$tag')"
