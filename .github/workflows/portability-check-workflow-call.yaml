@@ -34,14 +34,12 @@ jobs:
           python -m pip install -e .
       - name: Execute
         run: |
-          python -m penv "my_penv_$($Env:MATRIX_PYTHON_VERSION)"
-          "my_penv_$($Env:MATRIX_PYTHON_VERSION)\Activate.ps1"
+          python -m penv "my_penv_${{ matrix.python-version }}"
+          "my_penv_${{ matrix.python-version }}\Activate.ps1"
           python -m pip install --upgrade pip
           python -m pip install numpy
           python -c "import numpy;print(numpy.random.randn(5))"
-          Compress-Archive -Path "my_penv_$($Env:MATRIX_PYTHON_VERSION)" -DestinationPath "my_penv_$($Env:MATRIX_PYTHON_VERSION).zip"
-        env:
-          MATRIX_PYTHON_VERSION: ${{ matrix.python-version }}
+          Compress-Archive -Path "my_penv_${{ matrix.python-version }}" -DestinationPath "my_penv_${{ matrix.python-version }}.zip"
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
@@ -61,14 +59,10 @@ jobs:
           path: .
       - name: Extract Artifact
         run: |
-          Expand-Archive -Path "my_penv_$($Env:MATRIX_PYTHON_VERSION).zip" -DestinationPath  "my_penv_$($Env:MATRIX_PYTHON_VERSION)"
-        env:
-          MATRIX_PYTHON_VERSION: ${{ matrix.python-version }}
+          Expand-Archive -Path "my_penv_${{ matrix.python-version }}.zip" -DestinationPath  "my_penv_${{ matrix.python-version }}"
       - name: Check
         run: |
-          my_penv_$($Env:MATRIX_PYTHON_VERSION)\my_penv_$($Env:MATRIX_PYTHON_VERSION)\Activate.ps1
+          my_penv_${{ matrix.python-version }}\my_penv_${{ matrix.python-version }}\Activate.ps1
           echo $env:PATH
           python -c "import sys; f'{sys.version_info.major}.{sys.version_info.minor}' == '${MATRIX_PYTHON_VERSION}'"
           python -c "import numpy;print(numpy.random.randn(5))"
-        env:
-          MATRIX_PYTHON_VERSION: ${{ matrix.python-version }}
