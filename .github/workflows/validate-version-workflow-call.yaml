@@ -37,6 +37,8 @@ jobs:
       - name: Check Version
         run: |
           # Check if the tag is the same as runnable_family.__version__
-          export tag=$(echo "${{ inputs.git-ref }}" | cut -d / -f 3)
+          export tag=$(echo "$INPUT_GIT_REF" | cut -d / -f 3)
           echo "extracted tag from git-ref: $tag"
           python -c "import os; import runnable_family; assert runnable_family.__version__ == '$tag', (runnable_family.__version__, '$tag')"
+        env:
+          INPUT_GIT_REF: ${{ inputs.git-ref }}
