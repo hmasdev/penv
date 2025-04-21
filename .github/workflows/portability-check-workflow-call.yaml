@@ -38,6 +38,7 @@ jobs:
           "my_penv_$($Env:MATRIX_PYTHON_VERSION)\Activate.ps1"
           python -m pip install --upgrade pip
           python -m pip install numpy
+          python -c "import numpy;print(numpy.random.randn(5))"
           Compress-Archive -Path "my_penv_$($Env:MATRIX_PYTHON_VERSION)" -DestinationPath "my_penv_$($Env:MATRIX_PYTHON_VERSION).zip"
         env:
           MATRIX_PYTHON_VERSION: ${{ matrix.python-version }}
