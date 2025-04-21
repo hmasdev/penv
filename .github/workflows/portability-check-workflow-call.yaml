@@ -66,7 +66,7 @@ jobs:
           MATRIX_PYTHON_VERSION: ${{ matrix.python-version }}
       - name: Check
         run: |
-          "my_penv_$($Env:MATRIX_PYTHON_VERSION)\my_penv_$($Env:MATRIX_PYTHON_VERSION)\Activate.ps1"
+          my_penv_$($Env:MATRIX_PYTHON_VERSION)\my_penv_$($Env:MATRIX_PYTHON_VERSION)\Activate.ps1
           echo $env:PATH
           "my_penv_$($Env:MATRIX_PYTHON_VERSION)\my_penv_$($Env:MATRIX_PYTHON_VERSION)\python.exe" -c "import sys; f'{sys.version_info.major}.{sys.version_info.minor}' == '${MATRIX_PYTHON_VERSION}'"
           "my_penv_$($Env:MATRIX_PYTHON_VERSION)\my_penv_$($Env:MATRIX_PYTHON_VERSION)\python.exe" -c "import numpy;print(numpy.random.randn(5))"
