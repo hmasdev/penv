@@ -35,7 +35,7 @@ jobs:
       - name: Execute
         run: |
           python -m penv "my_penv_${{ matrix.python-version }}"
-          "my_penv_${{ matrix.python-version }}\Activate.ps1"
+          my_penv_${{ matrix.python-version }}\Activate.ps1
           python -m pip install --upgrade pip
           python -m pip install numpy
           python -c "import numpy;print(numpy.random.randn(5))"
