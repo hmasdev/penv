@@ -10,19 +10,21 @@ jobs:
     uses: ./.github/workflows/validate-version-workflow-call.yaml
     with:
       git-ref: ${{ github.ref }}
+    permissions:
+      contents: read
   update-version:
     needs: [validate-tag]
     if: ${{ failure() }}
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.10"]
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      - name: Setup Python 3.10
+        uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.10"
       - name: Update Tags
         run: |
           # Get the latest tag
@@ -31,17 +33,17 @@ jobs:
           git checkout -b $branch_name
 
           # Update the version
-          line_before_chg=$(grep -P "__version__ *= *['|\"]v?\d+\.\d+\.\d+.*['|\"]" runnable_family/__init__.py)
+          line_before_chg=$(grep -P "__version__ *= *['|\"]v?\d+\.\d+\.\d+.*['|\"]" penv/__init__.py)
           line_after_chg="__version__ = '$latest_tag'"
           echo "line_before_chg: $line_before_chg"
           echo "line_after_chg: $line_after_chg"
-          sed -i -e "s/$line_before_chg/$line_after_chg/g" runnable_family/__init__.py
+          sed -i -e "s/$line_before_chg/$line_after_chg/g" penv/__init__.py
 
           # Commit and push the changes
-          if [ $(grep "$line_after_chg" runnable_family/__init__.py | wc -l) -eq 1 ]; then
+          if [ $(grep "$line_after_chg" penv/__init__.py | wc -l) -eq 1 ]; then
             git config --local user.name "github-actions[bot]"
             git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add runnable_family/__init__.py
+            git add penv/__init__.py
             git commit -m "Update version to $latest_tag"
             git push -u origin $branch_name
             git tag -d $latest_tag
@@ -59,4 +61,4 @@ jobs:
             exit 1
           fi
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

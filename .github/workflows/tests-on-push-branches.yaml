@@ -10,15 +10,23 @@ jobs:
     uses: ./.github/workflows/code-style-check-workflow-call.yaml
     with:
       git-ref: ${{ github.ref }}
+    permissions:
+      contents: read
   static-type-check:
     uses: ./.github/workflows/static-type-check-workflow-call.yaml
     with:
       git-ref: ${{ github.ref }}
+    permissions:
+      contents: read
   pytest:
     uses: ./.github/workflows/pytest-workflow-call.yaml
     with:
       git-ref: ${{ github.ref }}
+    permissions:
+      contents: read
   portability-check:
     uses: ./.github/workflows/portability-check-workflow-call.yaml
     with:
       git-ref: ${{ github.ref }}
+    permissions:
+      contents: read
