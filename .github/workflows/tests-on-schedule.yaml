@@ -8,9 +8,17 @@ on:
 jobs:
   code-style-check:
     uses: ./.github/workflows/code-style-check-workflow-call.yaml
+    permissions:
+      contents: read
   static-type-check:
     uses: ./.github/workflows/static-type-check-workflow-call.yaml
+    permissions:
+      contents: read
   pytest:
     uses: ./.github/workflows/pytest-workflow-call.yaml
+    permissions:
+      contents: read
   portability-check:
     uses: ./.github/workflows/portability-check-workflow-call.yaml
+    permissions:
+      contents: read
