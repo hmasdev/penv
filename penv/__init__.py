@@ -9,7 +9,7 @@ from typing import Optional, Union
 from types import SimpleNamespace
 from venv import EnvBuilder
 
-__version__ = '0.0.0'
+__version__ = '1.1.1'
 
 CORE_VENV_DEPS = ('pip', 'setuptools')
 logger = logging.getLogger(__name__)
